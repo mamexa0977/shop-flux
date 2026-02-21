@@ -10,6 +10,7 @@ class ApiEndpoints {
   static const String resetPassword = '/auth/reset-password';
   static const String verifyOtp = '/auth/verify-otp';
   static const String me = '/auth/me';
+
   static String getProfileImageUrl(String? fileName) {
     if (fileName == null) return '';
     // Remove '/api' from baseUrl and append the upload path
@@ -20,4 +21,16 @@ class ApiEndpoints {
   static const String profile = '/users/profile';
   static const String changePassword = '/users/change-password';
   static const String profileImage = '/users/profile-image';
+
+  // Products
+   static const String products = '/products';
+  static const String featuredProducts = '/products/featured';
+  static const String newArrivals = '/products/new-arrivals';
+  static const String bestSellers = '/products/best-sellers';
+  static const String categories = '/products/categories';
+  static const String productsByCategory = '/products/category'; // append slug
+  static const String productDetails = '/products';              // append id
+
+  // Reviews
+  static const String productReviews = '/reviews/product';   
 }

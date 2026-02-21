@@ -21,6 +21,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$User {
+  @JsonKey(fromJson: stringToInt)
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get phone => throw _privateConstructorUsedError;
@@ -28,7 +29,7 @@ mixin _$User {
   @JsonKey(defaultValue: 'customer')
   String? get role => throw _privateConstructorUsedError;
   @JsonKey(name: 'isPhoneVerified')
-  bool? get isPhoneVerified => throw _privateConstructorUsedError; // Seller fields
+  bool? get isPhoneVerified => throw _privateConstructorUsedError;
   String? get businessName => throw _privateConstructorUsedError;
   String? get businessRegNumber => throw _privateConstructorUsedError;
   String? get businessAddress => throw _privateConstructorUsedError;
@@ -56,7 +57,7 @@ abstract class $UserCopyWith<$Res> {
       _$UserCopyWithImpl<$Res, User>;
   @useResult
   $Res call({
-    int id,
+    @JsonKey(fromJson: stringToInt) int id,
     String name,
     String phone,
     String? profileImage,
@@ -211,7 +212,7 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
   @override
   @useResult
   $Res call({
-    int id,
+    @JsonKey(fromJson: stringToInt) int id,
     String name,
     String phone,
     String? profileImage,
@@ -357,7 +358,7 @@ class __$$UserImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserImpl implements _User {
   const _$UserImpl({
-    required this.id,
+    @JsonKey(fromJson: stringToInt) required this.id,
     required this.name,
     required this.phone,
     this.profileImage,
@@ -380,6 +381,7 @@ class _$UserImpl implements _User {
       _$$UserImplFromJson(json);
 
   @override
+  @JsonKey(fromJson: stringToInt)
   final int id;
   @override
   final String name;
@@ -393,7 +395,6 @@ class _$UserImpl implements _User {
   @override
   @JsonKey(name: 'isPhoneVerified')
   final bool? isPhoneVerified;
-  // Seller fields
   @override
   final String? businessName;
   @override
@@ -498,7 +499,7 @@ class _$UserImpl implements _User {
 
 abstract class _User implements User {
   const factory _User({
-    required final int id,
+    @JsonKey(fromJson: stringToInt) required final int id,
     required final String name,
     required final String phone,
     final String? profileImage,
@@ -520,6 +521,7 @@ abstract class _User implements User {
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
   @override
+  @JsonKey(fromJson: stringToInt)
   int get id;
   @override
   String get name;
@@ -532,7 +534,7 @@ abstract class _User implements User {
   String? get role;
   @override
   @JsonKey(name: 'isPhoneVerified')
-  bool? get isPhoneVerified; // Seller fields
+  bool? get isPhoneVerified;
   @override
   String? get businessName;
   @override

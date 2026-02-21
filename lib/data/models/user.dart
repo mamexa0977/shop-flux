@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import '../../core/utils/json_converters.dart';
 
 part 'user.freezed.dart';
 part 'user.g.dart';
@@ -6,13 +7,12 @@ part 'user.g.dart';
 @freezed
 class User with _$User {
   const factory User({
-    required int id,
+    @JsonKey(fromJson: stringToInt) required int id,
     required String name,
     required String phone,
     String? profileImage,
     @JsonKey(defaultValue: 'customer') String? role,
     @JsonKey(name: 'isPhoneVerified') bool? isPhoneVerified,
-    // Seller fields
     String? businessName,
     String? businessRegNumber,
     String? businessAddress,

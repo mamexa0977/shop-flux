@@ -1,4 +1,6 @@
  
+import 'package:ecom_frontend/presentation/features/product/screens/product_detail_screen.dart';
+import 'package:ecom_frontend/presentation/features/product/screens/product_list_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../providers/auth_state_provider.dart';
@@ -27,27 +29,36 @@ final routerProvider = Provider<GoRouter>((ref) {
     initialLocation:
         '/home', // Try starting at home, the redirect will kick us out if needed
     debugLogDiagnostics: true, // Helps us see what's happening in console
+redirect: (context, state) {
+  final isAuthRoute =
+      state.matchedLocation.startsWith('/login') ||
+      state.matchedLocation.startsWith('/register') ||
+      state.matchedLocation.startsWith('/verify');
 
-    redirect: (context, state) {
-      final isAuthRoute =
-          state.matchedLocation.startsWith('/login') ||
-          state.matchedLocation.startsWith('/register') ||
-          state.matchedLocation.startsWith('/verify');
+  // Define routes that GUESTS are allowed to see
+  final isGuestAllowedRoute = 
+      state.matchedLocation.startsWith('/home') || 
+      state.matchedLocation.startsWith('/product') ||
+      state.matchedLocation.startsWith('/search') ||
+      state.matchedLocation.startsWith('/category')  ||
+      state.matchedLocation.startsWith('/cart') ||      // ADDED
+      state.matchedLocation.startsWith('/wishlist') ||  // ADDED
+      state.matchedLocation.startsWith('/profile');
 
-      // 1. If NOT logged in and trying to go inside -> Send to Login
-      if (!isLoggedIn && !isAuthRoute) {
-        return '/login';
-      }
+  // 1. If NOT logged in AND trying to access a restricted area (like Profile or Cart)
+  // Send them to login ONLY if it's not a guest-friendly route.
+  if (!isLoggedIn && !isAuthRoute && !isGuestAllowedRoute) {
+    return '/login';
+  }
 
-      // 2. If Logged in and trying to go to Login -> Send to Home
-      if (isLoggedIn && isAuthRoute) {
-        return '/home';
-      }
+  // 2. If Logged in and trying to go to Auth pages -> Send to Home
+  if (isLoggedIn && isAuthRoute) {
+    return '/home';
+  }
 
-      return null; // No redirect needed
-    },
-
-    routes: [
+  return null; // No redirect needed
+},
+  routes: [
       // AUTH ROUTES (Outside the Bottom Nav Bar)
       GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
       GoRoute(
@@ -105,6 +116,24 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: '/profile',
             builder: (context, state) => const ProfileScreen(),
           ),
+          GoRoute(
+  path: '/products',
+  builder: (context, state) => const ProductListScreen(), // categorySlug = null
+),
+          GoRoute(
+  path: '/product/:id',
+  builder: (context, state) {
+    final id = int.parse(state.pathParameters['id']!);
+    return ProductDetailScreen(productId: id);
+  },
+),
+GoRoute(
+  path: '/category/:slug',
+  builder: (context, state) {
+    final slug = state.pathParameters['slug']!;
+    return ProductListScreen(categorySlug: slug);
+  },
+),
         ],
       ),
     ],

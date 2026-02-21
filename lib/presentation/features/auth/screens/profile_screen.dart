@@ -3,6 +3,7 @@ import 'package:ecom_frontend/providers/auth_state_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../common_widgets/guest_prompt_view.dart';
 import '../../../common_widgets/loading_indicator.dart';
 
 class ProfileScreen extends ConsumerWidget {
@@ -16,8 +17,11 @@ class ProfileScreen extends ConsumerWidget {
     final baseurl= ApiEndpoints.baseUrl;
 
     // If user is null (shouldn't happen if guarded), show loading or redirect
-    if (user == null) return const Center(child: LoadingIndicator());
-
+   if (user == null) {
+      return const Scaffold(
+        body: GuestPromptView(title: 'Profile', icon: Icons.person),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
@@ -40,7 +44,7 @@ class ProfileScreen extends ConsumerWidget {
               child: user.profileImage == null ? const Icon(Icons.person, size: 50) : null,
             ),
             const SizedBox(height: 16),
-            
+
             Text(user.name, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
             Text(user.phone, style: const TextStyle(fontSize: 16, color: Colors.grey)),
             
