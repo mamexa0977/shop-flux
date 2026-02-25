@@ -41,8 +41,23 @@ class ProductApi {
     return response.data;
   }
 
-  Future<Map<String, dynamic>> getProductsByCategory(String slug) async {
-    final response = await _dio.get('${ApiEndpoints.productsByCategory}/$slug');
-    return response.data;
-  }
+  // Future<Map<String, dynamic>> getProductsByCategory(String slug) async {
+  //   final response = await _dio.get('${ApiEndpoints.productsByCategory}/$slug');
+  //   return response.data;
+  // }
+  // product_api.dart
+Future<Map<String, dynamic>> getProductsByCategory(
+  String slug, {
+  int page = 1,
+  int limit = 10,
+  Map<String, dynamic>? filters,
+}) async {
+  final query = <String, dynamic>{'page': page, 'limit': limit};
+  if (filters != null) query.addAll(filters);
+  final response = await _dio.get(
+    '${ApiEndpoints.productsByCategory}/$slug',
+    queryParameters: query,
+  );
+  return response.data;
+}
 }

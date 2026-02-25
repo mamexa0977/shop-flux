@@ -10,6 +10,7 @@ import '../widgets/flash_sale_section.dart';
 import '../widgets/new_arrivals.dart';
 import '../widgets/best_sellers.dart';
 import '../widgets/category_grid.dart';
+import 'package:ecom_frontend/providers/auth_state_provider.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -20,9 +21,21 @@ class HomeScreen extends ConsumerWidget {
     final newAsync = ref.watch(newArrivalsProvider);
     final bestAsync = ref.watch(bestSellersProvider);
     final categoriesAsync = ref.watch(categoriesProvider);
+    final user = ref.watch(authStateProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
+      appBar: AppBar(
+        title: Text('Hello, ${user?.name ?? 'Guest user'}'),
+        actions: [
+          IconButton(icon: const Icon(Icons.search), onPressed: () {}),
+          IconButton(
+            icon: const Icon(Icons.shopping_cart),
+            onPressed: () {
+              Navigator.pushNamed(context, '/cart');
+            },
+          ),
+        ],
+      ),
       body: RefreshIndicator(
         onRefresh: () async {
           ref.invalidate(featuredProductsProvider);

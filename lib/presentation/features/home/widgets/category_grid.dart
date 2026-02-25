@@ -35,8 +35,13 @@ class CategoryGrid extends StatelessWidget {
                 child: Column(
                   children: [
                     CircleAvatar(
+                      backgroundColor: Color(0xFF015733),
                       radius: 30,
-                      child: const Icon(Icons.apps, size: 30),
+                      child: const Icon(
+                        Icons.apps,
+                        size: 30,
+                        color: Colors.white,
+                      ),
                     ),
                     const SizedBox(height: 4),
                     const Text(
@@ -55,6 +60,7 @@ class CategoryGrid extends StatelessWidget {
               child: Column(
                 children: [
                   CircleAvatar(
+                    backgroundColor: Color(0xFF015733),
                     radius: 30,
                     backgroundImage:
                         cat.image != null
@@ -63,7 +69,9 @@ class CategoryGrid extends StatelessWidget {
                             )
                             : null,
                     child:
-                        cat.image == null ? const Icon(Icons.category) : null,
+                        cat.image == null
+                            ? const Icon(Icons.category, color: Colors.white)
+                            : null,
                   ),
                   const SizedBox(height: 4),
                   Text(

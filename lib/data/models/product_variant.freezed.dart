@@ -27,6 +27,8 @@ mixin _$ProductVariant {
   String? get sku => throw _privateConstructorUsedError;
   @JsonKey(fromJson: stringToDoubleNullable)
   double? get price => throw _privateConstructorUsedError;
+  @JsonKey(fromJson: stringToDoubleNullable)
+  double? get discountPrice => throw _privateConstructorUsedError;
   @JsonKey(fromJson: stringToIntNullable)
   int? get stock => throw _privateConstructorUsedError;
 
@@ -52,6 +54,7 @@ abstract class $ProductVariantCopyWith<$Res> {
     Map<String, dynamic> attributes,
     String? sku,
     @JsonKey(fromJson: stringToDoubleNullable) double? price,
+    @JsonKey(fromJson: stringToDoubleNullable) double? discountPrice,
     @JsonKey(fromJson: stringToIntNullable) int? stock,
   });
 }
@@ -75,6 +78,7 @@ class _$ProductVariantCopyWithImpl<$Res, $Val extends ProductVariant>
     Object? attributes = null,
     Object? sku = freezed,
     Object? price = freezed,
+    Object? discountPrice = freezed,
     Object? stock = freezed,
   }) {
     return _then(
@@ -98,6 +102,11 @@ class _$ProductVariantCopyWithImpl<$Res, $Val extends ProductVariant>
                 freezed == price
                     ? _value.price
                     : price // ignore: cast_nullable_to_non_nullable
+                        as double?,
+            discountPrice:
+                freezed == discountPrice
+                    ? _value.discountPrice
+                    : discountPrice // ignore: cast_nullable_to_non_nullable
                         as double?,
             stock:
                 freezed == stock
@@ -124,6 +133,7 @@ abstract class _$$ProductVariantImplCopyWith<$Res>
     Map<String, dynamic> attributes,
     String? sku,
     @JsonKey(fromJson: stringToDoubleNullable) double? price,
+    @JsonKey(fromJson: stringToDoubleNullable) double? discountPrice,
     @JsonKey(fromJson: stringToIntNullable) int? stock,
   });
 }
@@ -146,6 +156,7 @@ class __$$ProductVariantImplCopyWithImpl<$Res>
     Object? attributes = null,
     Object? sku = freezed,
     Object? price = freezed,
+    Object? discountPrice = freezed,
     Object? stock = freezed,
   }) {
     return _then(
@@ -170,6 +181,11 @@ class __$$ProductVariantImplCopyWithImpl<$Res>
                 ? _value.price
                 : price // ignore: cast_nullable_to_non_nullable
                     as double?,
+        discountPrice:
+            freezed == discountPrice
+                ? _value.discountPrice
+                : discountPrice // ignore: cast_nullable_to_non_nullable
+                    as double?,
         stock:
             freezed == stock
                 ? _value.stock
@@ -188,6 +204,7 @@ class _$ProductVariantImpl implements _ProductVariant {
     required final Map<String, dynamic> attributes,
     this.sku,
     @JsonKey(fromJson: stringToDoubleNullable) this.price,
+    @JsonKey(fromJson: stringToDoubleNullable) this.discountPrice,
     @JsonKey(fromJson: stringToIntNullable) this.stock,
   }) : _attributes = attributes;
 
@@ -211,12 +228,15 @@ class _$ProductVariantImpl implements _ProductVariant {
   @JsonKey(fromJson: stringToDoubleNullable)
   final double? price;
   @override
+  @JsonKey(fromJson: stringToDoubleNullable)
+  final double? discountPrice;
+  @override
   @JsonKey(fromJson: stringToIntNullable)
   final int? stock;
 
   @override
   String toString() {
-    return 'ProductVariant(id: $id, attributes: $attributes, sku: $sku, price: $price, stock: $stock)';
+    return 'ProductVariant(id: $id, attributes: $attributes, sku: $sku, price: $price, discountPrice: $discountPrice, stock: $stock)';
   }
 
   @override
@@ -231,6 +251,8 @@ class _$ProductVariantImpl implements _ProductVariant {
             ) &&
             (identical(other.sku, sku) || other.sku == sku) &&
             (identical(other.price, price) || other.price == price) &&
+            (identical(other.discountPrice, discountPrice) ||
+                other.discountPrice == discountPrice) &&
             (identical(other.stock, stock) || other.stock == stock));
   }
 
@@ -242,6 +264,7 @@ class _$ProductVariantImpl implements _ProductVariant {
     const DeepCollectionEquality().hash(_attributes),
     sku,
     price,
+    discountPrice,
     stock,
   );
 
@@ -268,6 +291,7 @@ abstract class _ProductVariant implements ProductVariant {
     required final Map<String, dynamic> attributes,
     final String? sku,
     @JsonKey(fromJson: stringToDoubleNullable) final double? price,
+    @JsonKey(fromJson: stringToDoubleNullable) final double? discountPrice,
     @JsonKey(fromJson: stringToIntNullable) final int? stock,
   }) = _$ProductVariantImpl;
 
@@ -284,6 +308,9 @@ abstract class _ProductVariant implements ProductVariant {
   @override
   @JsonKey(fromJson: stringToDoubleNullable)
   double? get price;
+  @override
+  @JsonKey(fromJson: stringToDoubleNullable)
+  double? get discountPrice;
   @override
   @JsonKey(fromJson: stringToIntNullable)
   int? get stock;

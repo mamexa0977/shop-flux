@@ -32,5 +32,10 @@ class ApiEndpoints {
   static const String productDetails = '/products';              // append id
 
   // Reviews
-  static const String productReviews = '/reviews/product';   
+  static const String productReviews = '/reviews/product';  
+
+  // Cart
+  static const String cart = '/cart'; 
+  //wishlist
+  static const String wishlist = '/wishlist';
 }

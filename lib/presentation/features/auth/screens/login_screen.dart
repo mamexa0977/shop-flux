@@ -6,7 +6,7 @@ import '../../../../core/utils/validators.dart';
 import '../../../common_widgets/custom_button.dart';
 import '../../../common_widgets/custom_textfield.dart';
 import '../../../common_widgets/error_view.dart';
-import '../providers/auth_controller.dart'; 
+import '../providers/auth_controller.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -34,16 +34,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       ref.read(authControllerProvider.notifier).clearError();
 
       // Perform login
-      final success = await ref.read(authControllerProvider.notifier).login(
-            _phoneController.text,
-            _passwordController.text,
-          );
+      final success = await ref
+          .read(authControllerProvider.notifier)
+          .login(_phoneController.text, _passwordController.text);
 
       if (success && mounted) {
         context.go('/home');
         if (!_rememberMe) {
-        await ref.read(secureStorageProvider).delete(StorageKeys.token);
-      }
+          await ref.read(secureStorageProvider).delete(StorageKeys.token);
+        }
       }
     }
   }
@@ -53,7 +52,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final authState = ref.watch(authControllerProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
+      backgroundColor: const Color(0xFFFFFAD3),
+      appBar: AppBar(
+        title: const Text('Login'),
+        backgroundColor: Color(0xFFFFFAD3),
+        elevation: 0,
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),
@@ -87,7 +91,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       children: [
                         Checkbox(
                           value: _rememberMe,
-                          onChanged: (v) => setState(() => _rememberMe = v ?? false),
+                          onChanged:
+                              (v) => setState(() => _rememberMe = v ?? false),
                         ),
                         const Text('Remember me'),
                       ],
@@ -99,14 +104,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ],
                 ),
                 const SizedBox(height: 24),
-                
+
                 // Updated Button using authState
                 CustomButton(
                   text: 'Login',
                   isLoading: authState.isLoading,
                   onPressed: _submit,
                 ),
-                
+
                 const SizedBox(height: 16),
                 Row(
                   children: [
@@ -138,20 +143,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       onTap: () => context.push('/register'),
                       child: const Text(
                         'Sign up',
-                        style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 8),
                 GestureDetector(
-                  onTap: () => context.go('/home'), 
+                  onTap: () => context.go('/home'),
                   child: const Text(
                     'Continue as guest',
                     style: TextStyle(color: Colors.grey),
                   ),
                 ),
-                
+
                 // Updated Error View using authState
                 if (authState.error != null)
                   Padding(

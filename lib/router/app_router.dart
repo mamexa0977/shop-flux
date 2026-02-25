@@ -69,7 +69,13 @@ redirect: (context, state) {
         path: '/verify-phone',
         builder: (context, state) => const PhoneVerificationScreen(),
       ),
-
+          GoRoute(
+  path: '/product/:id',
+  builder: (context, state) {
+    final id = int.parse(state.pathParameters['id']!);
+    return ProductDetailScreen(productId: id);
+  },
+),
       // MAIN APP ROUTES (Inside the Bottom Nav Bar)
       // This ShellRoute keeps the BottomNavBar valid for all children
       ShellRoute(
@@ -120,13 +126,7 @@ redirect: (context, state) {
   path: '/products',
   builder: (context, state) => const ProductListScreen(), // categorySlug = null
 ),
-          GoRoute(
-  path: '/product/:id',
-  builder: (context, state) {
-    final id = int.parse(state.pathParameters['id']!);
-    return ProductDetailScreen(productId: id);
-  },
-),
+
 GoRoute(
   path: '/category/:slug',
   builder: (context, state) {

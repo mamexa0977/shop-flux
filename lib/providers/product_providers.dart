@@ -30,51 +30,130 @@ final bestSellersProvider = FutureProvider<List<Product>>((ref) async {
   return repo.getBestSellers();
 });
 
-// Product list with pagination and filters
+// // Product list with pagination and filters
+// class ProductListNotifier extends StateNotifier<AsyncValue<List<Product>>> {
+//   final ProductRepository _repository;
+//   final String? _categorySlug;
+//   int _currentPage = 1;
+//   bool _hasMore = true;
+//   Map<String, dynamic> _currentFilters = {};
+
+//   ProductListNotifier(this._repository, this._categorySlug)
+//     : super(const AsyncValue.loading()) {
+//     _loadFirstPage();
+//   }
+// Future<void> _loadFirstPage() async {
+//     state = const AsyncValue.loading();
+//     try {
+//       List<Product> products;
+//       if (_categorySlug != null) {
+//         // Use category endpoint (no pagination yet)
+//         products = await _repository.getProductsByCategory(_categorySlug!);
+//         _hasMore = false; // no pagination for now
+//       } else {
+//         products = await _repository.getProducts(page: 1, limit: 10, filters: _currentFilters);
+//         _hasMore = products.length == 10;
+//       }
+//       state = AsyncValue.data(products);
+//     } catch (e, st) {
+//       state = AsyncValue.error(e, st);
+//     }
+//   }  Future<void> loadNextPage() async {
+//     if (!_hasMore) return;
+//     final currentList = state.value ?? [];
+//     state = AsyncValue.data(
+//       currentList,
+//     ); // keep previous data while loading more
+//     try {
+//       final nextPage = await _repository.getProducts(
+//         page: _currentPage + 1,
+//         limit: 10,
+//         filters: _currentFilters,
+//       );
+//       _hasMore = nextPage.length == 10;
+//       _currentPage++;
+//       state = AsyncValue.data([...currentList, ...nextPage]);
+//     } catch (e, st) {
+//       // Optionally show error, but keep old data
+//     }
+//   }
+
+//   void applyFilters(Map<String, dynamic> filters) {
+//     _currentFilters = filters;
+//     _currentPage = 1;
+//     _loadFirstPage();
+//   }
+
+//   void refresh() {
+//     _currentPage = 1;
+//     _loadFirstPage();
+//   }
+// }
+
+// product_providers.dart
 class ProductListNotifier extends StateNotifier<AsyncValue<List<Product>>> {
   final ProductRepository _repository;
   final String? _categorySlug;
   int _currentPage = 1;
   bool _hasMore = true;
   Map<String, dynamic> _currentFilters = {};
-
+ Map<String, dynamic> get currentFilters => _currentFilters;
   ProductListNotifier(this._repository, this._categorySlug)
-    : super(const AsyncValue.loading()) {
+      : super(const AsyncValue.loading()) {
     _loadFirstPage();
   }
-Future<void> _loadFirstPage() async {
+
+  Future<void> _loadFirstPage() async {
     state = const AsyncValue.loading();
     try {
       List<Product> products;
       if (_categorySlug != null) {
-        // Use category endpoint (no pagination yet)
-        products = await _repository.getProductsByCategory(_categorySlug!);
-        _hasMore = false; // no pagination for now
+        products = await _repository.getProductsByCategory(
+          _categorySlug!,
+          page: 1,
+          limit: 10,
+          filters: _currentFilters,
+        );
       } else {
-        products = await _repository.getProducts(page: 1, limit: 10, filters: _currentFilters);
-        _hasMore = products.length == 10;
+        products = await _repository.getProducts(
+          page: 1,
+          limit: 10,
+          filters: _currentFilters,
+        );
       }
+      _hasMore = products.length == 10;
       state = AsyncValue.data(products);
     } catch (e, st) {
       state = AsyncValue.error(e, st);
     }
-  }  Future<void> loadNextPage() async {
+  }
+
+  Future<void> loadNextPage() async {
     if (!_hasMore) return;
     final currentList = state.value ?? [];
-    state = AsyncValue.data(
-      currentList,
-    ); // keep previous data while loading more
+    state = AsyncValue.data(currentList); // keep old data while loading
+
     try {
-      final nextPage = await _repository.getProducts(
-        page: _currentPage + 1,
-        limit: 10,
-        filters: _currentFilters,
-      );
+      List<Product> nextPage;
+      if (_categorySlug != null) {
+        nextPage = await _repository.getProductsByCategory(
+          _categorySlug!,
+          page: _currentPage + 1,
+          limit: 10,
+          filters: _currentFilters,
+        );
+      } else {
+        nextPage = await _repository.getProducts(
+          page: _currentPage + 1,
+          limit: 10,
+          filters: _currentFilters,
+        );
+      }
       _hasMore = nextPage.length == 10;
       _currentPage++;
       state = AsyncValue.data([...currentList, ...nextPage]);
     } catch (e, st) {
-      // Optionally show error, but keep old data
+      // optionally show error, but keep old data
     }
   }
 
@@ -89,6 +168,7 @@ Future<void> _loadFirstPage() async {
     _loadFirstPage();
   }
 }
+
 
 final productListProvider = StateNotifierProvider.family<
   ProductListNotifier,

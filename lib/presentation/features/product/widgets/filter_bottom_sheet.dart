@@ -15,27 +15,27 @@ class FilterBottomSheet extends StatefulWidget {
 }
 
 class _FilterBottomSheetState extends State<FilterBottomSheet> {
-  late TextEditingController _minController;
-  late TextEditingController _maxController;
-  late RangeValues _priceRange;
+  final TextEditingController _minController = TextEditingController();
+  final TextEditingController _maxController = TextEditingController();
   String? _selectedSort;
 
-  final List<String> _sortOptions = ['price_asc', 'price_desc', 'newest', 'popularity'];
+  final List<String> _sortOptions = ['price_asc', 'price_desc', 'newest'];
   final Map<String, String> _sortLabels = {
     'price_asc': 'Price: Low to High',
     'price_desc': 'Price: High to Low',
     'newest': 'Newest First',
-    'popularity': 'Popularity',
   };
 
   @override
   void initState() {
     super.initState();
-    final min = (widget.currentFilters['minPrice'] as num?)?.toDouble() ?? 0;
-    final max = (widget.currentFilters['maxPrice'] as num?)?.toDouble() ?? 1000;
-    _minController = TextEditingController(text: min.toString());
-    _maxController = TextEditingController(text: max.toString());
-    _priceRange = RangeValues(min, max);
+    // Initialize from current filters (if any)
+    if (widget.currentFilters.containsKey('minPrice')) {
+      _minController.text = widget.currentFilters['minPrice'].toString();
+    }
+    if (widget.currentFilters.containsKey('maxPrice')) {
+      _maxController.text = widget.currentFilters['maxPrice'].toString();
+    }
     _selectedSort = widget.currentFilters['sort'] as String?;
   }
 
@@ -46,11 +46,11 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     super.dispose();
   }
 
-  void _updateRangeFromText() {
-    final min = double.tryParse(_minController.text) ?? 0;
-    final max = double.tryParse(_maxController.text) ?? 1000;
+  void _clearFilters() {
     setState(() {
-      _priceRange = RangeValues(min, max);
+      _minController.clear();
+      _maxController.clear();
+      _selectedSort = null;
     });
   }
 
@@ -62,13 +62,22 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Filter & Sort',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Filter & Sort',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              TextButton(
+                onPressed: _clearFilters,
+                child: const Text('Clear'),
+              ),
+            ],
           ),
           const SizedBox(height: 16),
 
-          // Price Range with Text Fields
+          // Price Range - Text Fields Only
           const Text('Price Range'),
           const SizedBox(height: 8),
           Row(
@@ -82,7 +91,6 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                     prefixText: '\$',
                     border: OutlineInputBorder(),
                   ),
-                  onChanged: (_) => _updateRangeFromText(),
                 ),
               ),
               const SizedBox(width: 16),
@@ -95,27 +103,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                     prefixText: '\$',
                     border: OutlineInputBorder(),
                   ),
-                  onChanged: (_) => _updateRangeFromText(),
                 ),
               ),
             ],
-          ),
-          RangeSlider(
-            values: _priceRange,
-            min: 0,
-            max: 1000,
-            divisions: 100,
-            labels: RangeLabels(
-              '\$${_priceRange.start.round()}',
-              '\$${_priceRange.end.round()}',
-            ),
-            onChanged: (values) {
-              setState(() {
-                _priceRange = values;
-                _minController.text = values.start.toStringAsFixed(0);
-                _maxController.text = values.end.toStringAsFixed(0);
-              });
-            },
           ),
           const SizedBox(height: 16),
 
@@ -143,11 +133,16 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    final filters = {
-                      'minPrice': _priceRange.start,
-                      'maxPrice': _priceRange.end,
-                      if (_selectedSort != null) 'sort': _selectedSort,
-                    };
+                    final filters = <String, dynamic>{};
+                    if (_minController.text.isNotEmpty) {
+                      filters['minPrice'] = double.parse(_minController.text);
+                    }
+                    if (_maxController.text.isNotEmpty) {
+                      filters['maxPrice'] = double.parse(_maxController.text);
+                    }
+                    if (_selectedSort != null) {
+                      filters['sort'] = _selectedSort;
+                    }
                     widget.onApply(filters);
                     Navigator.pop(context);
                   },

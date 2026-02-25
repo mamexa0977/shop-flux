@@ -16,7 +16,10 @@ class NewArrivals extends StatelessWidget {
       children: [
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Text('New Arrivals', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          child: Text(
+            'New Arrivals',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
         ),
         const SizedBox(height: 8),
         SizedBox(
@@ -33,7 +36,9 @@ class NewArrivals extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 12),
                   child: ProductCard(
                     product: product,
-                    onTap: () => context.push('/product/${product.id}'), // ← changed
+                    onTap:
+                        () =>
+                            context.push('/product/${product.id}'), // ← changed
                   ),
                 ),
               );

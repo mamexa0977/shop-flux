@@ -24,16 +24,17 @@ class ProductCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Card(
+        clipBehavior: Clip.antiAlias,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 🔁 REPLACED Expanded WITH FIXED HEIGHT CONTAINER
-            Container(
-              height: 150, // adjust as needed
-              width: double.infinity,
+            // Fixed square image
+            AspectRatio(
+              aspectRatio: 1,
               child:
                   imageUrl != null
                       ? Image.network(
+                        // ⚠️ Verify path – should probably be '/uploads/products/'
                         '${ApiEndpoints.baseUrl}/uploads/profiles/$imageUrl',
                         fit: BoxFit.cover,
                         errorBuilder:
@@ -42,21 +43,30 @@ class ProductCard extends StatelessWidget {
                       )
                       : const Center(child: Icon(Icons.image)),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    product.name,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Text(
-                    '\$$displayPrice',
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ],
+            // Flexible text area that fills remaining grid cell height
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      product.name,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontSize: 14),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      '\$$displayPrice',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF015733), // Your brand color
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

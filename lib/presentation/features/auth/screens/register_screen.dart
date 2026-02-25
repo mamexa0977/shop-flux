@@ -13,6 +13,7 @@ import '../providers/auth_controller.dart'; // NEW IMPORT
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
+
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
 
@@ -38,17 +39,20 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _bankAccountNumberController = TextEditingController();
   final _mobileMoneyProviderController = TextEditingController();
   final _mobileMoneyNumberController = TextEditingController();
-final ImagePicker _imagePicker = ImagePicker();
-XFile? _selectedImage;
+  final ImagePicker _imagePicker = ImagePicker();
+  XFile? _selectedImage;
 
-Future<void> _pickImage() async {
-  final pickedFile = await _imagePicker.pickImage(source: ImageSource.gallery);
-  if (pickedFile != null) {
-    setState(() {
-      _selectedImage = pickedFile;
-    });
+  Future<void> _pickImage() async {
+    final pickedFile = await _imagePicker.pickImage(
+      source: ImageSource.gallery,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        _selectedImage = pickedFile;
+      });
+    }
   }
-}
+
   Map<String, TextEditingController> get _sellerControllers => {
     'businessName': _businessNameController,
     'businessRegNumber': _businessRegNumberController,
@@ -77,7 +81,14 @@ Future<void> _pickImage() async {
     final authState = ref.watch(authControllerProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Create Account')),
+      backgroundColor: Color(0xFFFFFAD3),
+
+      appBar: AppBar(
+        title: const Text('Create Account'),
+        backgroundColor: Color(0xFFFFFAD3),
+        elevation: 0,
+        scrolledUnderElevation: 0,
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),
@@ -98,20 +109,22 @@ Future<void> _pickImage() async {
 
                   const SizedBox(height: 24),
                   Center(
-  child: GestureDetector(
-    onTap: _pickImage,
-    child: CircleAvatar(
-      radius: 50,
-      backgroundImage: _selectedImage != null
-          ? FileImage(File(_selectedImage!.path))
-          : null,
-      child: _selectedImage == null
-          ? const Icon(Icons.camera_alt, size: 40)
-          : null,
-    ),
-  ),
-),
-const SizedBox(height: 16),
+                    child: GestureDetector(
+                      onTap: _pickImage,
+                      child: CircleAvatar(
+                        radius: 50,
+                        backgroundImage:
+                            _selectedImage != null
+                                ? FileImage(File(_selectedImage!.path))
+                                : null,
+                        child:
+                            _selectedImage == null
+                                ? const Icon(Icons.camera_alt, size: 40)
+                                : null,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
                   CustomTextField(
                     label: 'Full Name',
                     controller: _nameController,
@@ -147,14 +160,14 @@ const SizedBox(height: 16),
                     SellerFields(controllers: _sellerControllers),
                   ],
                   const SizedBox(height: 24),
-                  
+
                   // UPDATED BUTTON LOGIC
                   CustomButton(
-                    text: 'Sign Up', 
+                    text: 'Sign Up',
                     isLoading: authState.isLoading,
-                    onPressed: _submit
+                    onPressed: _submit,
                   ),
-                  
+
                   const SizedBox(height: 16),
                   Row(
                     children: [
@@ -192,7 +205,7 @@ const SizedBox(height: 16),
                       ),
                     ],
                   ),
-                  
+
                   // UPDATED ERROR VIEW
                   if (authState.error != null)
                     Padding(
@@ -211,7 +224,7 @@ const SizedBox(height: 16),
   Future<void> _submit() async {
     if (_formKey.currentState!.validate()) {
       ref.read(authControllerProvider.notifier).clearError();
-      
+
       final data = {
         'name': _nameController.text,
         'phone': _phoneController.text,
@@ -230,20 +243,24 @@ const SizedBox(height: 16),
       };
 
       // Call Register
-      final success = await ref.read(authControllerProvider.notifier).register(data, _isSeller);
-if (_selectedImage != null) {
-  try {
-    final formData = FormData.fromMap({
-      'profileImage': await MultipartFile.fromFile(_selectedImage!.path),
-    });
-    await ref.read(authControllerProvider.notifier).uploadProfileImage(formData);
-  } catch (e) {
-    // Optionally show a snackbar, but don't block verification
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Image upload failed: $e')),
-    );
-  }
-}
+      final success = await ref
+          .read(authControllerProvider.notifier)
+          .register(data, _isSeller);
+      if (_selectedImage != null) {
+        try {
+          final formData = FormData.fromMap({
+            'profileImage': await MultipartFile.fromFile(_selectedImage!.path),
+          });
+          await ref
+              .read(authControllerProvider.notifier)
+              .uploadProfileImage(formData);
+        } catch (e) {
+          // Optionally show a snackbar, but don't block verification
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Image upload failed: $e')));
+        }
+      }
       if (success && mounted) {
         // Store credentials for auto-login after verification
         // (We keep this simplified PendingAuth logic for now since you have the file)
@@ -251,7 +268,7 @@ if (_selectedImage != null) {
           phone: _phoneController.text,
           password: _passwordController.text,
         );
-        
+
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Registration successful. Please verify your phone.'),

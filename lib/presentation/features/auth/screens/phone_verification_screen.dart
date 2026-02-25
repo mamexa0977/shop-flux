@@ -44,6 +44,8 @@ class _PhoneVerificationScreenState extends ConsumerState<PhoneVerificationScree
     final pendingAuth = ref.read(pendingAuthProvider); // Use read for data we just need once
 
     return Scaffold(
+      backgroundColor: const Color(0xFFFFFAD3),
+
       appBar: AppBar(title: const Text('Verify Phone')),
       body: SafeArea(
         child: Padding(

@@ -10,7 +10,10 @@ class ProductVariant with _$ProductVariant {
     @JsonKey(fromJson: stringToInt) required int id,
     required Map<String, dynamic> attributes,
     String? sku,
+
     @JsonKey(fromJson: stringToDoubleNullable) double? price,
+    @JsonKey(fromJson: stringToDoubleNullable) double? discountPrice,
+
     @JsonKey(fromJson: stringToIntNullable) int? stock,
   }) = _ProductVariant;
 

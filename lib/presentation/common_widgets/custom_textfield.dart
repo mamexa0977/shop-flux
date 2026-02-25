@@ -108,8 +108,19 @@ class _CustomTextFieldState extends State<CustomTextField> {
       onChanged: widget.onChanged,
       enabled: widget.enabled,
       decoration: InputDecoration(
+        filled: true,
+        // 2. Set the color to white
+        fillColor: Colors.white,
+
         labelText: widget.label,
         hintText: widget.hint,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+            color: Color.fromARGB(255, 185, 185, 185),
+            width: 1.0,
+          ),
+        ),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
         suffixIcon:
             suffixIcons.isNotEmpty

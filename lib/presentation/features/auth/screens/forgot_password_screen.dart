@@ -30,6 +30,8 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
     final authState = ref.watch(authControllerProvider);
 
     return Scaffold(
+      backgroundColor: const Color(0xFFFFFAD3),
+
       appBar: AppBar(title: const Text('Forgot Password')),
       body: SafeArea(
         child: Padding(

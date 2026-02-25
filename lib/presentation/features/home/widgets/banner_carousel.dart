@@ -62,10 +62,11 @@ class _BannerCarouselState extends ConsumerState<BannerCarousel> {
     final bannersAsync = ref.watch(bannersProvider);
 
     return bannersAsync.when(
-      loading: () => const SizedBox(
-        height: 150,
-        child: Center(child: CircularProgressIndicator()),
-      ),
+      loading:
+          () => const SizedBox(
+            height: 150,
+            child: Center(child: CircularProgressIndicator()),
+          ),
       error: (_, __) => const SizedBox.shrink(),
       data: (banners) {
         if (banners.isEmpty) return const SizedBox.shrink();
@@ -81,7 +82,8 @@ class _BannerCarouselState extends ConsumerState<BannerCarousel> {
                 itemBuilder: (ctx, i) {
                   final banner = banners[i];
                   final baseurl = ApiEndpoints.baseUrl;
-                  final imageUrl = '$baseurl/uploads/profiles/${banner.imageUrl}';
+                  final imageUrl =
+                      '$baseurl/uploads/profiles/${banner.imageUrl}';
 
                   return Container(
                     margin: EdgeInsets.only(right: 8, left: i == 0 ? 16 : 0),
@@ -91,7 +93,9 @@ class _BannerCarouselState extends ConsumerState<BannerCarousel> {
                       image: DecorationImage(
                         image: NetworkImage(imageUrl),
                         fit: BoxFit.cover,
-                        onError: (_, __) => const AssetImage('assets/placeholder.png'),
+                        onError:
+                            (_, __) =>
+                                const AssetImage('assets/placeholder.png'),
                       ),
                     ),
                   );
@@ -108,7 +112,8 @@ class _BannerCarouselState extends ConsumerState<BannerCarousel> {
                   margin: const EdgeInsets.symmetric(horizontal: 4),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: _currentPage == index ? Colors.blue : Colors.grey,
+                    color:
+                        _currentPage == index ? Color(0xFF015733) : Colors.grey,
                   ),
                 );
               }),

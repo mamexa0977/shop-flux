@@ -17,6 +17,16 @@ class BottomNavBar extends StatelessWidget {
       body: child,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
+        backgroundColor: Colors.white,
+
+        // 2. Define the Active (selected) color
+        selectedItemColor: const Color(0xFF015733),
+
+        // 3. Define the Inactive (unselected) color
+        unselectedItemColor: const Color(0xFF797979),
+
+        // 4. Set type to fixed so the background doesn't change/shift
+        type: BottomNavigationBarType.fixed,
         onTap: (index) {
           switch (index) {
             case 0:
@@ -40,7 +50,7 @@ class BottomNavBar extends StatelessWidget {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
-            backgroundColor: Colors.yellow,
+            backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),

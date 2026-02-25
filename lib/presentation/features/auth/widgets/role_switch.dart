@@ -14,7 +14,7 @@ class RoleSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey.shade200,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(30),
       ),
       child: Row(
@@ -33,13 +33,13 @@ class RoleSwitch extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
         decoration: BoxDecoration(
-          color: selected ? Colors.blue : Colors.transparent,
+          color: selected ? Color(0xFFFD730D) : Colors.white,
           borderRadius: BorderRadius.circular(30),
         ),
         child: Text(
           title,
           style: TextStyle(
-            color: selected ? Colors.white : Colors.black,
+            color: selected ? Colors.white : Color(0xFFFD730D),
             fontWeight: FontWeight.w500,
           ),
         ),

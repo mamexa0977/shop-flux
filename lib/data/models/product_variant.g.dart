@@ -12,6 +12,7 @@ _$ProductVariantImpl _$$ProductVariantImplFromJson(Map<String, dynamic> json) =>
       attributes: json['attributes'] as Map<String, dynamic>,
       sku: json['sku'] as String?,
       price: stringToDoubleNullable(json['price']),
+      discountPrice: stringToDoubleNullable(json['discountPrice']),
       stock: stringToIntNullable(json['stock']),
     );
 
@@ -22,5 +23,6 @@ Map<String, dynamic> _$$ProductVariantImplToJson(
   'attributes': instance.attributes,
   'sku': instance.sku,
   'price': instance.price,
+  'discountPrice': instance.discountPrice,
   'stock': instance.stock,
 };

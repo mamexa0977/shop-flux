@@ -24,7 +24,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
   XFile? _selectedImage;
-
+ bool _isPicking = false;
   @override
   void initState() {
     super.initState();
@@ -50,7 +50,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     // 2. Watch user for displaying current image
     final user = ref.watch(authStateProvider);
 
-    if (user == null) return const Scaffold(body: Center(child: Text("User not found")));
+    if (user == null)
+      return const Scaffold(body: Center(child: Text("User not found")));
 
     return Scaffold(
       appBar: AppBar(title: const Text('Edit Profile')),
@@ -62,17 +63,21 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
             children: [
               Center(
                 child: GestureDetector(
-                  onTap: _pickImage,
+                  onTap: _isPicking ? null : _pickImage,
                   child: CircleAvatar(
                     radius: 60,
-                    backgroundImage: _selectedImage != null
-                        ? FileImage(File(_selectedImage!.path))
-                        : (user.profileImage != null
-                            ? NetworkImage('${ApiEndpoints.baseUrl}uploads/profiles/${user.profileImage}')
-                            : null),
-                    child: _selectedImage == null && user.profileImage == null
-                        ? const Icon(Icons.camera_alt, size: 40)
-                        : null,
+                    backgroundImage:
+                        _selectedImage != null
+                            ? FileImage(File(_selectedImage!.path))
+                            : (user.profileImage != null
+                                ? NetworkImage(
+                                  '${ApiEndpoints.baseUrl}/uploads/profiles/${user.profileImage}',
+                                )
+                                : null),
+                    child:
+                        _selectedImage == null && user.profileImage == null
+                            ? const Icon(Icons.camera_alt, size: 40)
+                            : null,
                   ),
                 ),
               ),
@@ -96,19 +101,25 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     ref.read(authControllerProvider.notifier).clearError();
-                    
+
                     // 1. Update text info
-                    await ref.read(authControllerProvider.notifier).updateProfile(
-                      name: _nameController.text,
-                      phone: _phoneController.text,
-                    );
-                    
+                    await ref
+                        .read(authControllerProvider.notifier)
+                        .updateProfile(
+                          name: _nameController.text,
+                          phone: _phoneController.text,
+                        );
+
                     // 2. Update image if selected
                     if (_selectedImage != null) {
                       final formData = FormData.fromMap({
-                        'profileImage': await MultipartFile.fromFile(_selectedImage!.path),
+                        'profileImage': await MultipartFile.fromFile(
+                          _selectedImage!.path,
+                        ),
                       });
-                      await ref.read(authControllerProvider.notifier).uploadProfileImage(formData);
+                      await ref
+                          .read(authControllerProvider.notifier)
+                          .uploadProfileImage(formData);
                     }
 
                     if (mounted) context.pop();
@@ -127,11 +138,26 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     );
   }
 
+
   Future<void> _pickImage() async {
-    final picker = ImagePicker();
-    final image = await picker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      setState(() => _selectedImage = image);
+    // 🆕 Guard against concurrent calls
+    if (_isPicking) return;
+    
+    setState(() => _isPicking = true);
+    
+    try {
+      final picker = ImagePicker();
+      final image = await picker.pickImage(source: ImageSource.gallery);
+      if (image != null && mounted) {
+        setState(() => _selectedImage = image);
+      }
+    } catch (e) {
+      // Optional: handle any errors
+      debugPrint('Image picker error: $e');
+    } finally {
+      if (mounted) {
+        setState(() => _isPicking = false);
+      }
     }
   }
 }
