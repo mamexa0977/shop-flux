@@ -56,11 +56,14 @@ class CategoryGrid extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 30,
-                    backgroundImage: cat.image != null
-                        ? NetworkImage(
-                            '${ApiEndpoints.baseUrl}/uploads/categories/${cat.image}')
-                        : null,
-                    child: cat.image == null ? const Icon(Icons.category) : null,
+                    backgroundImage:
+                        cat.image != null
+                            ? NetworkImage(
+                              '${ApiEndpoints.baseUrl}/uploads/profiles/${cat.image}',
+                            )
+                            : null,
+                    child:
+                        cat.image == null ? const Icon(Icons.category) : null,
                   ),
                   const SizedBox(height: 4),
                   Text(

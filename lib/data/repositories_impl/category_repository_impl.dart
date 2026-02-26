@@ -9,6 +9,7 @@ class CategoryRepositoryImpl implements CategoryRepository {
 
   @override
   Future<List<Category>> getCategories() async {
+    await Future.delayed(const Duration(seconds: 10)); // Simulate network delay
     final response = await _api.getCategories();
     final data = response['data'];
     if (data is Map && data.containsKey('categories')) {

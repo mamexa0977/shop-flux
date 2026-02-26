@@ -7,16 +7,22 @@ class ProductApi {
   ProductApi(this._dio);
 
   Future<Map<String, dynamic>> getFeaturedProducts() async {
+    await Future.delayed(const Duration(seconds: 5));
+
     final response = await _dio.get(ApiEndpoints.featuredProducts);
     return response.data;
   }
 
   Future<Map<String, dynamic>> getNewArrivals() async {
+    await Future.delayed(const Duration(seconds: 5));
+
     final response = await _dio.get(ApiEndpoints.newArrivals);
     return response.data;
   }
 
   Future<Map<String, dynamic>> getBestSellers() async {
+    await Future.delayed(const Duration(seconds: 5));
+
     final response = await _dio.get(ApiEndpoints.bestSellers);
     return response.data;
   }
@@ -28,6 +34,8 @@ class ProductApi {
   }) async {
     final query = <String, dynamic>{'page': page, 'limit': limit};
     if (filters != null) query.addAll(filters);
+    await Future.delayed(const Duration(seconds: 10));
+
     final response = await _dio.get(
       ApiEndpoints.products,
       queryParameters: query,
@@ -36,6 +44,8 @@ class ProductApi {
   }
 
   Future<Map<String, dynamic>> getProduct(int id) async {
+    await Future.delayed(const Duration(seconds: 10));
+
     final response = await _dio.get('${ApiEndpoints.productDetails}/$id');
     print('Product details response:🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 ${response.data}');
     return response.data;

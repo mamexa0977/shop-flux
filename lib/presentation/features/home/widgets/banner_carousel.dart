@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../providers/banner_providers.dart';
 import '../../../../data/models/banner.dart';
 import '../../../../core/constants/api_endpoints.dart';
+import '../shimmer/banner_carousel_shimmer.dart';
 
 class BannerCarousel extends ConsumerStatefulWidget {
   const BannerCarousel({super.key});
@@ -62,11 +63,8 @@ class _BannerCarouselState extends ConsumerState<BannerCarousel> {
     final bannersAsync = ref.watch(bannersProvider);
 
     return bannersAsync.when(
-      loading:
-          () => const SizedBox(
-            height: 150,
-            child: Center(child: CircularProgressIndicator()),
-          ),
+      // In BannerCarousel's build method:
+loading: () => const BannerCarouselShimmer(),  // ← changed from CircularProgressIndicator,
       error: (_, __) => const SizedBox.shrink(),
       data: (banners) {
         if (banners.isEmpty) return const SizedBox.shrink();

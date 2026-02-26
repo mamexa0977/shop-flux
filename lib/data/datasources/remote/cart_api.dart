@@ -8,6 +8,8 @@ class CartApi {
   CartApi(this._dio);
 
   Future<Map<String, dynamic>> getCart() async {
+    await Future.delayed(const Duration(seconds: 5));
+
     final response = await _dio.get(ApiEndpoints.cart);
     return response.data;
   }

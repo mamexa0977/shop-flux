@@ -3,6 +3,10 @@ import 'package:ecom_frontend/presentation/features/product/screens/product_deta
 import 'package:ecom_frontend/presentation/features/product/screens/product_list_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../core/enums/collection_type.dart';
+import '../data/models/flash_sale.dart';
+import '../presentation/collection/collection_products_screen.dart';
+import '../presentation/features/home/widgets/flash_sale_products_screen.dart';
 import '../providers/auth_state_provider.dart';
 
 // Import your screens
@@ -126,13 +130,36 @@ redirect: (context, state) {
   path: '/products',
   builder: (context, state) => const ProductListScreen(), // categorySlug = null
 ),
-
+GoRoute(
+  path: '/flash-sale/:id',
+  name: 'flashSaleProducts',
+  builder: (context, state) {
+    final flashSale = state.extra as FlashSale; // retrieve passed object
+    return FlashSaleProductsScreen(flashSale: flashSale);
+  },
+),
 GoRoute(
   path: '/category/:slug',
   builder: (context, state) {
     final slug = state.pathParameters['slug']!;
     return ProductListScreen(categorySlug: slug);
   },
+),
+// In your router configuration
+GoRoute(
+  path: '/collection/featured',
+  name: 'featuredCollection',
+  builder: (context, state) => const CollectionProductsScreen(collectionType: CollectionType.featured),
+),
+GoRoute(
+  path: '/collection/new-arrivals',
+  name: 'newArrivalsCollection',
+  builder: (context, state) => const CollectionProductsScreen(collectionType: CollectionType.newArrivals),
+),
+GoRoute(
+  path: '/collection/best-sellers',
+  name: 'bestSellersCollection',
+  builder: (context, state) => const CollectionProductsScreen(collectionType: CollectionType.bestSellers),
 ),
         ],
       ),
