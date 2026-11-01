@@ -34,7 +34,7 @@ class ProductApi {
   }) async {
     final query = <String, dynamic>{'page': page, 'limit': limit};
     if (filters != null) query.addAll(filters);
-    await Future.delayed(const Duration(seconds: 10));
+    // await Future.delayed(const Duration(seconds: 10));
 
     final response = await _dio.get(
       ApiEndpoints.products,
@@ -44,7 +44,7 @@ class ProductApi {
   }
 
   Future<Map<String, dynamic>> getProduct(int id) async {
-    await Future.delayed(const Duration(seconds: 10));
+    // await Future.delayed(const Duration(seconds: 10));
 
     final response = await _dio.get('${ApiEndpoints.productDetails}/$id');
     print('Product details response:🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 ${response.data}');

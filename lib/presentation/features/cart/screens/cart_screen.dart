@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/constants/api_endpoints.dart';
 import '../../../../providers/cart_providers.dart';
 import '../../../common_widgets/guest_prompt_view.dart';
@@ -126,9 +127,7 @@ class CartScreen extends ConsumerWidget {
                             backgroundColor: const Color(0xFF015733), // Matching your banner theme
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                           ),
-                          onPressed: () {
-                            // TODO: Navigate to Checkout Screen
-                          },
+                          onPressed: () => context.push('/checkout'),
                           child: const Text('Proceed to Checkout', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold)),
                         ),
                       ),

@@ -9,7 +9,7 @@ class ReviewRepositoryImpl implements ReviewRepository {
 
   @override
   Future<List<Review>> getProductReviews(int productId) async {
-    await Future.delayed(const Duration(seconds: 5));
+    // await Future.delayed(const Duration(seconds: 5));
 
     final response = await _api.getProductReviews(productId);
     final data = response['data'];

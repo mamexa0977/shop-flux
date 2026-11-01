@@ -1,24 +1,4 @@
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import '../data/datasources/remote/cart_api.dart';
-// import '../data/models/cart.dart';
-// import '../core/network/dio_client.dart';
 
-// // 1. Provides the API instance
-// final cartApiProvider = Provider<CartApi>((ref) {
-//   final dio = ref.watch(dioProvider);
-//   return CartApi(dio);
-// });
-
-// // 2. Fetches the Cart object (items + subtotal)
-// final cartProvider = FutureProvider<CartData>((ref) async {
-//   final api = ref.read(cartApiProvider);
-//   final response = await api.getCart();
-  
-//   // Drilling down into { status: 'success', data: { cart: { ... } } }
-//   final cartJson = response['data']['cart'];
-//   return CartData.fromJson(cartJson);
-// });
-// cart_action_provider.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../data/datasources/remote/cart_api.dart';
 import '../data/models/cart.dart';

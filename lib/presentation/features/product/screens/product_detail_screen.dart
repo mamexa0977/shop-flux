@@ -172,7 +172,7 @@ void initState() {
                                     .where((img) => img.imageUrl != null)
                                     .map(
                                       (img) => Image.network(
-                                        '${ApiEndpoints.baseUrl}/uploads/profiles/${img.imageUrl}',
+                                        '${ApiEndpoints.baseUrl}/uploads/products/${img.imageUrl}',
                                         fit: BoxFit.cover,
                                         errorBuilder:
                                             (context, error, stack) =>

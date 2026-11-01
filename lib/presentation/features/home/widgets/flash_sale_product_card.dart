@@ -127,7 +127,7 @@ class FlashSaleProductCard extends StatelessWidget {
                     color: Colors.grey[100],
                     child: imageUrl != null
                         ? Image.network(
-                            '${ApiEndpoints.baseUrl}/uploads/profiles/$imageUrl',
+                            '${ApiEndpoints.baseUrl}/uploads/products/$imageUrl',
                             fit: BoxFit.cover,
                             errorBuilder: (_, __, ___) => const Icon(Icons.image, size: 40),
                           )

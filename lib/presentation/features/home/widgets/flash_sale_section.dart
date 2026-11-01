@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../providers/flash_sale_providers.dart';
 import 'flash_sale_product_card.dart';
-import 'countdown_timer.dart';
-import 'flash_sale_shimmer.dart';
+import '../shimmer/countdown_timer.dart';
+import '../shimmer/flash_sale_shimmer.dart';
 
 class FlashSaleSection extends ConsumerWidget {
   const FlashSaleSection({super.key});

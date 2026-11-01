@@ -10,7 +10,7 @@ class ProductRepositoryImpl implements ProductRepository {
 
   @override
   Future<List<Product>> getFeaturedProducts() async {
-    await Future.delayed(const Duration(seconds: 5));
+    // await Future.delayed(const Duration(seconds: 5));
     final response = await _api.getFeaturedProducts();
     return _extractProducts(response);
   }
@@ -54,7 +54,7 @@ class ProductRepositoryImpl implements ProductRepository {
     int limit = 10,
     Map<String, dynamic>? filters,
   }) async {
-    await Future.delayed(const Duration(seconds: 5));
+    // await Future.delayed(const Duration(seconds: 5));
     final response = await _api.getProductsByCategory(
       slug,
       page: page,

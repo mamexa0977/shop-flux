@@ -59,7 +59,7 @@ class CategoryGrid extends StatelessWidget {
                     backgroundImage:
                         cat.image != null
                             ? NetworkImage(
-                              '${ApiEndpoints.baseUrl}/uploads/profiles/${cat.image}',
+                              '${ApiEndpoints.baseUrl}/uploads/products/${cat.image}',
                             )
                             : null,
                     child:

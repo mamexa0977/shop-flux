@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../data/models/flash_sale.dart';
 import 'flash_sale_product_card.dart';
-import 'countdown_timer.dart';
+import '../shimmer/countdown_timer.dart';
 import 'flash_sale_product_card.dart';
 
 class FlashSaleProductsScreen extends StatelessWidget {

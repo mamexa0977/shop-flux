@@ -63,7 +63,7 @@ class ProductCard extends StatelessWidget {
                       child:
                           imageUrl != null
                               ? Image.network(
-                                '${ApiEndpoints.baseUrl}/uploads/profiles/$imageUrl',
+                                '${ApiEndpoints.baseUrl}/uploads/products/$imageUrl',
                                 fit: BoxFit.cover,
                                 errorBuilder:
                                     (_, __, ___) => const Center(

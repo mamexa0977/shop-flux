@@ -13,7 +13,7 @@ import '../widgets/best_sellers.dart';
 import '../widgets/category_grid.dart';
 import 'package:ecom_frontend/providers/auth_state_provider.dart';
 
-import '../widgets/product_horizontal_list_shimmer.dart';
+import '../shimmer/product_horizontal_list_shimmer.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});

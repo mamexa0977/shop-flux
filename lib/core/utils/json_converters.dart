@@ -18,7 +18,7 @@ double? stringToDoubleNullable(dynamic value) {
 }
 
 String? doubleToStringNullable(double? value) => value?.toString();
-
+String doubleToString(double value) => value.toString();
 // ========== INTEGER converters ==========
 /// For non‑nullable int fields (throws if null)
 int stringToInt(dynamic value) {
@@ -39,3 +39,10 @@ int? stringToIntNullable(dynamic value) {
 }
 
 String? intToStringNullable(int? value) => value?.toString();
+// Add this after your existing converters
+DateTime? stringToDateTimeNullable(dynamic value) {
+  if (value == null) return null;
+  if (value is DateTime) return value;
+  if (value is String) return DateTime.tryParse(value);
+  return null;
+}
